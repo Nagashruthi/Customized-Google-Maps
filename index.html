@@ -1,0 +1,286 @@
+<html>
+<head>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+var markers = [
+    {
+        "id": "0001",
+        "type": "RetailLocation",
+        "address": "Fremont, CA 94538",
+        "lat":37.542571,
+        "lng":-121.993037,
+        "$revenue": 10000000
+      },
+      {
+        "id": "0002",
+        "type": "RetailLocation",
+        "address": "Newark, CA",
+        "lat": 37.525400,
+        "lng":-122.037764,
+        "$revenue": 3000000
+      },
+      {
+        "id": "0003",
+        "type": "RetailLocation",
+        "address": "4100-4198 Pleiades Pl,Union City, CA 94587",
+        "lat": 37.587546,
+        "lng":-122.066716,
+        "$revenue": 120000000
+      },
+      {
+      "id": "0004",
+      "type": "RetailLocation",
+      "address": "4100-4198 Pleiades Pl,Union City, CA 94587",
+      "lat": 37.587546,
+      "lng":-122.066716,
+      "$revenue": 120000000
+    },
+      {
+        "id": "0005",
+        "type": "RetailLocation",
+        "address": "Burbank,Hayward, CA",
+        "lat": 37.660284,
+        "lng": -122.089396,
+        "$revenue": 5000000
+      },
+      {
+        "id": "0006",
+        "type": "Distribution Facility",
+        "address": "Sugarloaf San Mateo, CA",
+        "lat": 37.527798,
+        "lng": -122.312989,
+        "$revenue": 300000
+      },
+      {
+        "id": "0007",
+        "type": "RetailLocation",
+        "address": "San Carlos, CA",
+        "lat": 37.492686,
+        "lng": -122.249346,
+        "$revenue": 3002000
+      },
+      {
+        "id": "0008",
+        "type": "RetailLocation",
+        "address": "Santa Cruz County CA",
+        "lat": 37.007888,
+        "lng": -122.067355,
+        "$revenue": 88999090
+      },
+      {
+        "id": "0009",
+        "type": "RetailLocation",
+        "address": "Santa Clara County CA",
+        "lat": 37.113164,
+        "lng": -121.651485,
+        "$revenue": 88999090
+      },
+      {
+        "id": "0010",
+        "type": "Distribution Facility",
+        "address": "Santa Cruz County CA-d",
+        "lat": 37.006852,
+        "lng": -122.064148,
+        "$revenue": 1000000
+      }, {
+      "id": "0011",
+      "type": "Call Center",
+      "address": "Santa Clara, CA",
+      "lat": 37.344717,
+      "lng":  -121.979666,
+      "$revenue": 1000000
+    },{
+      "id": "0012",
+      "type": "RetailLocation",
+      "address": "Pleasanton, CA",
+      "lat": 37.638625,
+      "lng":  -121.911430,
+      "$revenue": 1000000
+    },
+      {
+        "id": "0013",
+        "type": "HeadQuarters",
+        "address": "Mission District San Francisco, CA",
+        "lat": 37.753038,
+        "lng":  -122.423198,
+        "$revenue": 1000000
+      },
+      {
+        "id": "0014",
+        "type": "RetailLocation",
+        "address": "Pacifica, CA",
+        "lat": 37.594870,
+        "lng":  -122.473562,
+        "$revenue": 50000
+      },
+      {
+        "id": "0015",
+        "type": "RetailLocation",
+        "address": "Gilroy, CA",
+        "lat": 36.995174,
+        "lng": -121.602745,
+        "$revenue": 50000
+      }
+    ];
+window.onload = function () {
+ 
+    var mapOptions = {
+        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+        zoom: 8,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var infoWindow = new google.maps.InfoWindow();
+    var latlngbounds = new google.maps.LatLngBounds();
+    var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+    var i = 0;
+    var interval = setInterval(function () {
+        var data = markers[i]
+        var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+        var icon = "";
+        switch (data.type) {
+            case "Distribution Facility":
+                icon = "red";
+                break;
+            case "HeadQuarters":
+                icon = "yellow";
+                break;
+            case "Call Center":
+                icon = "blue";
+                break;
+            case "RetailLocation":
+                icon = "green";
+                break;
+        }
+        icon = "http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: data.title,
+            animation: google.maps.Animation.DROP,
+            icon: new google.maps.MarkerImage(icon)
+        });
+        (function (marker, data) {
+            google.maps.event.addListener(marker, "click", function (e) {
+                infoWindow.setContent(data.description);
+                infoWindow.open(map, marker);
+            });
+        })(marker, data);
+        latlngbounds.extend(marker.position);
+        i++;
+        if (i == markers.length) {
+            clearInterval(interval);
+            var bounds = new google.maps.LatLngBounds();
+            map.setCenter(latlngbounds.getCenter());
+            map.fitBounds(latlngbounds);
+        }
+    }, 80);
+}
+</script>
+<script type="text/javascript">
+function dothis()
+{
+  var citymap = {
+  chicago: {
+    center: {lat: 37.542571, lng: -121.993037},
+    $revenue: 10000000
+  },
+  newyork: {
+    center: {lat: 37.525400, lng: -122.037764},
+    $revenue: 3000000
+  },
+  losangeles: {
+    center: {lat: 37.587546, lng: -122.066716},
+    $revenue: 120000000
+  },
+  vancouver: {
+    center: {lat: 37.587546, lng: -122.066716},
+    $revenue: 120000000
+  },
+  five: {
+    center: {lat: 37.660284, lng: -122.089396},
+    $revenue: 5000000
+  },
+  six: {
+    center: {lat: 37.527798, lng: -122.312989},
+    $revenue: 300000
+  },
+  seven: {
+    center: {lat: 37.492686, lng: -122.249346},
+    $revenue: 3002000
+  },
+  eight: {
+    center: {lat: 37.007888, lng: -122.067355},
+    $revenue: 88999090
+  },
+  nine: {
+    center: {lat: 37.113164, lng: -121.651485},
+    $revenue: 88999090
+  },
+  ten: {
+    center: {lat: 37.006852, lng: -122.064148},
+    $revenue: 1000000
+  },
+  eleven: {
+    center: {lat: 37.344717, lng: -121.979666},
+    $revenue: 1000000
+  },
+  twelve: {
+    center: {lat: 37.638625, lng: -121.911430},
+    $revenue: 1000000
+  },
+  thirteen: {
+    center: {lat: 37.753038, lng: -122.423198},
+    $revenue: 1000000
+  },
+  fourteen: {
+    center: {lat: 37.594870, lng: -122.473562},
+    $revenue: 50000
+  },
+  fifteen: {
+    center: {lat: 36.995174, lng: -121.602745},
+    $revenue: 50000
+  }
+};
+  
+var map = new google.maps.Map(document.getElementById('d2'), {
+    zoom: 14,
+    center: {lat: 37.542571, lng: -121.993037},
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  });
+
+  // Construct the circle for each value in citymap.
+  // Note: We scale the area of the circle based on the population.
+  for (var city in citymap) {
+    // Add the circle for this city to the map.
+    var cityCircle = new google.maps.Circle({
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.35,
+      map: map,
+      center: citymap[city].center,
+      radius: Math.sqrt(citymap[city].$revenue) * 0.1
+    });
+  }
+}
+</script>
+</head>
+<style type="text/css">
+#dvMap{
+  margin-top: 10px;
+}
+#d2
+{
+  position: inline; 
+}
+</style>
+<body>
+<div id="dvMap" style="width: 500px; height: 500px">
+        </div>
+        <input type="button" value="Radius around revenue " name="b1" onclick="dothis()"/>
+  <div id="d3"></div>
+        <div id="d2" align="center" style="width:1000px;height:1000px"></div>
+
+</body>
+</html>
